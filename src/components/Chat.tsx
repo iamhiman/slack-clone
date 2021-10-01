@@ -2,6 +2,7 @@ import { InfoOutlined, StarBorderOutlined } from "@mui/icons-material";
 import React, { FC } from "react";
 import styled from "styled-components";
 import { Message } from "./Message";
+import { ChatInput } from "./ChatInput";
 
 export const Chat: FC = () => {
   return (
@@ -81,6 +82,7 @@ export const Chat: FC = () => {
           userImage="https://vignette.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png/revision/latest?cb=20170628120149"
         />
       </ChatMessages>
+      <ChatInput />
     </ChatContainer>
   );
 };
