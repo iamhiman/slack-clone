@@ -2,6 +2,8 @@ import React, { FC } from "react";
 import styled from "styled-components";
 import { FiberManualRecord, Create } from "@mui/icons-material";
 import { Typography } from "@mui/material";
+import { InsertComment } from "@mui/icons-material";
+import { SidebarOption } from "./SidebarOption";
 
 export const Sidebar: FC = () => {
   const roomStyle = {
@@ -32,6 +34,9 @@ export const Sidebar: FC = () => {
         </SidebarInfo>
         <Create />
       </SidebarHeader>
+
+      <SidebarOption Icon={InsertComment} title="Threads" />
+      <SidebarOption title="Some Channel Name" />
     </SidebarContainer>
   );
 };
