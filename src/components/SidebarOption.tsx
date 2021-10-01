@@ -1,21 +1,23 @@
 import React, { FC } from "react";
 import styled from "styled-components";
-import { Typography } from "@mui/material";
 
 interface ISidebarOption {
   Icon?: any;
   title: string;
+  addChannelOption?: boolean;
 }
 
-export const SidebarOption: FC<ISidebarOption> = ({ Icon, title }) => {
+export const SidebarOption: FC<ISidebarOption> = ({
+  Icon,
+  title,
+  addChannelOption,
+}) => {
   return (
     <>
       <SidebarOptionContainer>
         {Icon && <Icon fontSize="small" style={{ padding: 10 }} />}
         {Icon ? (
-          <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
-            {title}
-          </Typography>
+          <h3>{title}</h3>
         ) : (
           <SidebarOptionChannel>
             <span>#</span>
@@ -38,11 +40,14 @@ const SidebarOptionContainer = styled.div`
     opacity: 0.8;
     background-color: #340e36;
   }
+
+  > h3 {
+    font-weight: 500;
+  }
 `;
 
 const SidebarOptionChannel = styled.h3`
   padding: 10px 0;
-  font-weight: bold;
 
   > span {
     padding: 15px;

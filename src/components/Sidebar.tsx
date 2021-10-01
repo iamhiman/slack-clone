@@ -1,8 +1,19 @@
 import React, { FC } from "react";
 import styled from "styled-components";
-import { FiberManualRecord, Create } from "@mui/icons-material";
+import {
+  FiberManualRecord,
+  Create,
+  Apps,
+  BookmarkBorder,
+  ExpandLess,
+  FileCopy,
+  AlternateEmail,
+  InsertComment,
+  PeopleAlt,
+  ExpandMore,
+  Add,
+} from "@mui/icons-material";
 import { Typography } from "@mui/material";
-import { InsertComment } from "@mui/icons-material";
 import { SidebarOption } from "./SidebarOption";
 
 export const Sidebar: FC = () => {
@@ -36,7 +47,17 @@ export const Sidebar: FC = () => {
       </SidebarHeader>
 
       <SidebarOption Icon={InsertComment} title="Threads" />
-      <SidebarOption title="Some Channel Name" />
+      <SidebarOption Icon={AlternateEmail} title="Mentions & reactions" />
+      <SidebarOption Icon={BookmarkBorder} title="Saved items" />
+      <SidebarOption Icon={PeopleAlt} title="People & user groups" />
+      <SidebarOption Icon={Apps} title="Apps" />
+      <SidebarOption Icon={FileCopy} title="File browser" />
+      <SidebarOption Icon={ExpandLess} title="Show less" />
+      <hr />
+      <SidebarOption Icon={ExpandMore} title="Channels" />
+      <hr />
+      <SidebarOption Icon={Add} addChannelOption title="Add Channel" />
+      <SidebarOption title="gdg" />
     </SidebarContainer>
   );
 };
@@ -49,6 +70,12 @@ const SidebarContainer = styled.div`
   max-width: 260px;
   margin-top: 60px;
   overflow: scroll;
+
+  > hr {
+    border: 1px solid #49274b;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
 `;
 
 const SidebarHeader = styled.div`
