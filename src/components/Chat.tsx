@@ -3,86 +3,64 @@ import React, { FC } from "react";
 import styled from "styled-components";
 import { Message } from "./Message";
 import { ChatInput } from "./ChatInput";
+import { useCollection, useDocument } from "react-firebase-hooks/firestore";
+import { db } from "../firebase";
+import { selectRoomId } from "../store/appSlice";
+import { useSelector } from "react-redux";
 
 export const Chat: FC = () => {
+  const roomId = useSelector(selectRoomId);
+  const [roomDetails] = useDocument(
+    roomId && db.collection("rooms").doc(roomId)
+  );
+
+  const [roomMessages] = useCollection(
+    roomId &&
+      db
+        .collection("rooms")
+        .doc(roomId)
+        .collection("messages")
+        .orderBy("timestamp", "asc")
+  );
+
   return (
     <ChatContainer>
-      <ChatHeader>
-        <ChatLeftHeader>
-          <h4>#Room</h4>
-          <StarBorderOutlined />
-        </ChatLeftHeader>
+      {roomDetails && roomMessages && (
+        <>
+          <ChatHeader>
+            <ChatLeftHeader>
+              <h4>#{roomDetails?.data().name}</h4>
+              <StarBorderOutlined />
+            </ChatLeftHeader>
 
-        <ChatRightHeader>
-          <p>
-            <InfoOutlined />
-            Details
-          </p>
-        </ChatRightHeader>
-      </ChatHeader>
-      <ChatMessages>
-        <Message
-          message="Message"
-          timestamp="12:00 hrs"
-          user="Himanshu Kashyap"
-          userImage="https://vignette.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png/revision/latest?cb=20170628120149"
-        />
-        <Message
-          message="Message"
-          timestamp="12:00 hrs"
-          user="Himanshu Kashyap"
-          userImage="https://vignette.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png/revision/latest?cb=20170628120149"
-        />
-        <Message
-          message="Message"
-          timestamp="12:00 hrs"
-          user="Himanshu Kashyap"
-          userImage="https://vignette.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png/revision/latest?cb=20170628120149"
-        />
-        <Message
-          message="Message"
-          timestamp="12:00 hrs"
-          user="Himanshu Kashyap"
-          userImage="https://vignette.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png/revision/latest?cb=20170628120149"
-        />
-        <Message
-          message="Message"
-          timestamp="12:00 hrs"
-          user="Himanshu Kashyap"
-          userImage="https://vignette.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png/revision/latest?cb=20170628120149"
-        />
-        <Message
-          message="Message"
-          timestamp="12:00 hrs"
-          user="Himanshu Kashyap"
-          userImage="https://vignette.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png/revision/latest?cb=20170628120149"
-        />
-        <Message
-          message="Message"
-          timestamp="12:00 hrs"
-          user="Himanshu Kashyap"
-          userImage="https://vignette.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png/revision/latest?cb=20170628120149"
-        />
-        <Message
-          message="Message"
-          timestamp="12:00 hrs"
-          user="Himanshu Kashyap"
-          userImage="https://vignette.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png/revision/latest?cb=20170628120149"
-        />
-        <Message
-          message="Message"
-          timestamp="12:00 hrs"
-          user="Himanshu Kashyap"
-          userImage="https://vignette.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png/revision/latest?cb=20170628120149"
-        />
-        <Message
-          message="Message"
-          timestamp="12:00 hrs"
-          user="Himanshu Kashyap"
-          userImage="https://vignette.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png/revision/latest?cb=20170628120149"
-        />
-      </ChatMessages>
-      <ChatInput />
+            <ChatRightHeader>
+              <p>
+                <InfoOutlined />
+                Details
+              </p>
+            </ChatRightHeader>
+          </ChatHeader>
+          <ChatMessages>
+            {roomMessages?.docs.map((doc: any) => {
+              console.log(doc);
+              const { message, timestamp } = doc.data();
+              return (
+                <Message
+                  key={doc.id}
+                  message={message}
+                  timestamp={timestamp}
+                  user="Himanshu Ksshyap"
+                  userImage="https://vignette.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png/revision/latest?cb=20170628120149"
+                />
+              );
+            })}
+          </ChatMessages>
+          <ChatInput
+            channelName={roomDetails?.data().name}
+            channelId={roomId}
+          />
+        </>
+      )}
     </ChatContainer>
   );
 };

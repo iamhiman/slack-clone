@@ -19,7 +19,7 @@ export const Message: FC<IMessage> = ({
       <UserAvatar src={userImage} alt="user-img" />
       <MessageInfo>
         <h4>
-          {user} <span>{timestamp}</span>
+          {user} <span>{new Date(timestamp?.toDate()).toTimeString()}</span>
         </h4>
         <Typography>{message}</Typography>
       </MessageInfo>
