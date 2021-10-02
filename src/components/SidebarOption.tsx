@@ -34,7 +34,6 @@ export const SidebarOption: FC<ISidebarOption> = ({
   };
 
   const addChannel = () => {
-    console.log("open", open);
     if (channelName && channelName.trim().length !== 0) {
       db.collection("rooms").add({
         name: channelName,
@@ -48,7 +47,6 @@ export const SidebarOption: FC<ISidebarOption> = ({
 
   //pushes id to redux global store
   const selectChannel = () => {
-    console.log("room selected");
     if (id) {
       dispatch(
         enterRoom({

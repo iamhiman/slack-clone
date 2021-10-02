@@ -1,6 +1,6 @@
-import Button from "@mui/material/Button";
-import React, { FC } from "react";
+import { FC } from "react";
 import styled from "styled-components";
+import { Avatar, Button } from "@mui/material";
 import { auth, provider } from "../firebase";
 
 export const Login: FC = () => {
@@ -12,7 +12,7 @@ export const Login: FC = () => {
   return (
     <LoginContainer>
       <LoginInnerContainer>
-        <img src="slack.jpg" alt="slack-logo" />
+        <LoginAvatar src="slack.jpg" alt="slack-logo" />
         <h1>Sign in to the Himanshu's Slack</h1>
         <p>himanshu.slack.com</p>
         <Button onClick={signIn}>Sign in with Google</Button>
@@ -34,17 +34,28 @@ const LoginInnerContainer = styled.div`
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-  > img {
-    object-fit: contain;
-    height: 100px;
-    margin-bottom: 40px;
+  > p {
+    margin-top: 20px;
   }
 
   > button {
-    margin-top: 50px;
+    margin-top: 20px;
     text-transform: inherit !important;
     background-color: #0a8d48 !important;
     color: white;
+    width: 200px;
+    align-self: center;
   }
+`;
+
+const LoginAvatar = styled(Avatar)`
+  height: 100px;
+  width: 100px;
+  margin-bottom: 30px;
+  object-fit: contain;
+  align-self: center;
 `;

@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import { useState, FC } from "react";
 import { Button } from "@mui/material";
 import styled from "styled-components";
 import { db, auth } from "../firebase";
@@ -21,7 +21,6 @@ export const ChatInput: FC<IChatInput> = ({
 
   const sendMessage = (e: React.MouseEvent) => {
     e.preventDefault();
-    console.log("input", input);
 
     if (!channelId) {
       return false;

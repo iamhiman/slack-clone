@@ -1,6 +1,6 @@
-import { InfoOutlined, StarBorderOutlined } from "@mui/icons-material";
-import React, { useEffect, useRef, FC } from "react";
+import { useEffect, useRef, FC } from "react";
 import styled from "styled-components";
+import { InfoOutlined, StarBorderOutlined } from "@mui/icons-material";
 import { Message } from "./Message";
 import { ChatInput } from "./ChatInput";
 import { useCollection, useDocument } from "react-firebase-hooks/firestore";
@@ -49,7 +49,6 @@ export const Chat: FC = () => {
           </ChatHeader>
           <ChatMessages>
             {roomMessages?.docs.map((doc: any) => {
-              console.log(doc);
               const { message, timestamp, user, userImage } = doc.data();
               return (
                 <Message
