@@ -1,17 +1,45 @@
-import { FC } from "react";
+import { useState, FC } from "react";
 import styled from "styled-components";
 import { AccessTime, HelpOutline, Search } from "@mui/icons-material";
-import { Avatar } from "@mui/material";
+import { Avatar, Popover, Typography } from "@mui/material";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
 
 export const Header: FC = () => {
   const [user] = useAuthState(auth);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const typoStyle = {
+    width: 200,
+    display: "flex",
+    alignItems: "center",
+    height: 50,
+    marginLeft: 2,
+    cursor: "pointer",
+  };
+
   return (
     <HeaderContainer>
       <HeaderLeft>
-        <HeaderAvatar alt={user?.displayName} src={user?.photoURL} />
+        <HeaderAvatar
+          alt={user?.displayName}
+          src={user?.photoURL}
+          onClick={(e: React.MouseEvent<HTMLElement>) =>
+            setAnchorEl(e.currentTarget)
+          }
+        />
         <AccessTime />
+        <Popover
+          open={open}
+          sx={{ marginTop: 5 }}
+          anchorEl={anchorEl}
+          onClose={() => setAnchorEl(null)}
+        >
+          <Typography sx={typoStyle} onClick={() => auth.signOut()}>
+            Sign Out
+          </Typography>
+        </Popover>
       </HeaderLeft>
 
       <HeaderSearch>
