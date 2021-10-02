@@ -43,14 +43,14 @@ export const Chat: FC = () => {
           <ChatMessages>
             {roomMessages?.docs.map((doc: any) => {
               console.log(doc);
-              const { message, timestamp } = doc.data();
+              const { message, timestamp, user, userImage } = doc.data();
               return (
                 <Message
                   key={doc.id}
                   message={message}
                   timestamp={timestamp}
-                  user="Himanshu Ksshyap"
-                  userImage="https://vignette.wikia.nocookie.net/naruto/images/2/27/Kakashi_Hatake.png/revision/latest?cb=20170628120149"
+                  user={user}
+                  userImage={userImage}
                 />
               );
             })}

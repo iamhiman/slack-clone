@@ -1,8 +1,9 @@
 import React, { useState, FC } from "react";
 import { Button } from "@mui/material";
 import styled from "styled-components";
-import { db } from "../firebase";
+import { db, auth } from "../firebase";
 import firebase from "firebase/compat/app";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 interface IChatInput {
   channelName: string;
@@ -11,6 +12,7 @@ interface IChatInput {
 
 export const ChatInput: FC<IChatInput> = ({ channelName, channelId }) => {
   const [input, setInput] = useState("");
+  const [user] = useAuthState(auth);
 
   const sendMessage = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -23,6 +25,8 @@ export const ChatInput: FC<IChatInput> = ({ channelName, channelId }) => {
     db.collection("rooms").doc(channelId).collection("messages").add({
       message: input,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      user: user?.displayName,
+      userImage: user?.photoURL,
     });
 
     setInput("");
