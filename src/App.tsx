@@ -13,7 +13,7 @@ import { auth } from "./firebase";
 const App: FC = () => {
   const [user, loading] = useAuthState(auth);
 
-  if (!loading) {
+  if (loading) {
     return (
       <Loading>
         <LoadingContent>
@@ -27,15 +27,21 @@ const App: FC = () => {
   return (
     <div>
       <Router>
-        <Header />
-        <AppBody>
-          <Sidebar />
-          <Switch>
-            <Route path="/" exact>
-              <Chat />
-            </Route>
-          </Switch>
-        </AppBody>
+        {!user ? (
+          <Login />
+        ) : (
+          <>
+            <Header />
+            <AppBody>
+              <Sidebar />
+              <Switch>
+                <Route path="/" exact>
+                  <Chat />
+                </Route>
+              </Switch>
+            </AppBody>
+          </>
+        )}
       </Router>
     </div>
   );

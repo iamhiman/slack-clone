@@ -12,10 +12,7 @@ export const Login: FC = () => {
   return (
     <LoginContainer>
       <LoginInnerContainer>
-        <img
-          src="https://cdn.mos.cms.futurecdn.net/SDDw7CnuoUGax6x9mTo7dd.jpg"
-          alt=""
-        />
+        <img src="slack.jpg" alt="slack-logo" />
         <h1>Sign in to the Himanshu's Slack</h1>
         <p>himanshu.slack.com</p>
         <Button onClick={signIn}>Sign in with Google</Button>

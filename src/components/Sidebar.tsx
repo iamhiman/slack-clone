@@ -15,11 +15,13 @@ import {
 } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import { SidebarOption } from "./SidebarOption";
-import { db } from "../firebase";
+import { db, auth } from "../firebase";
 import { useCollection } from "react-firebase-hooks/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export const Sidebar: FC = () => {
   const [channels] = useCollection(db.collection("rooms"));
+  const [user] = useAuthState(auth);
 
   const roomStyle = {
     display: "flex",
@@ -44,7 +46,7 @@ export const Sidebar: FC = () => {
           </Typography>
           <Typography variant="subtitle2" sx={roomStyle}>
             <FiberManualRecord sx={iconStyle} />
-            Himanshu Kashyap
+            {user?.displayName}
           </Typography>
         </SidebarInfo>
         <Create />
