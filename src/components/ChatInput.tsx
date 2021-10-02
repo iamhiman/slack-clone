@@ -8,9 +8,14 @@ import { useAuthState } from "react-firebase-hooks/auth";
 interface IChatInput {
   channelName: string;
   channelId: null | string;
+  chatRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
-export const ChatInput: FC<IChatInput> = ({ channelName, channelId }) => {
+export const ChatInput: FC<IChatInput> = ({
+  channelName,
+  channelId,
+  chatRef,
+}) => {
   const [input, setInput] = useState("");
   const [user] = useAuthState(auth);
 
@@ -27,6 +32,10 @@ export const ChatInput: FC<IChatInput> = ({ channelName, channelId }) => {
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       user: user?.displayName,
       userImage: user?.photoURL,
+    });
+
+    chatRef?.current?.scrollIntoView({
+      behavior: "smooth",
     });
 
     setInput("");

@@ -1,5 +1,5 @@
 import { InfoOutlined, StarBorderOutlined } from "@mui/icons-material";
-import React, { FC } from "react";
+import React, { useEffect, useRef, FC } from "react";
 import styled from "styled-components";
 import { Message } from "./Message";
 import { ChatInput } from "./ChatInput";
@@ -9,12 +9,13 @@ import { selectRoomId } from "../store/appSlice";
 import { useSelector } from "react-redux";
 
 export const Chat: FC = () => {
+  const chatRef = useRef<null | HTMLDivElement>(null);
   const roomId = useSelector(selectRoomId);
   const [roomDetails] = useDocument(
     roomId && db.collection("rooms").doc(roomId)
   );
 
-  const [roomMessages] = useCollection(
+  const [roomMessages, loading] = useCollection(
     roomId &&
       db
         .collection("rooms")
@@ -22,6 +23,12 @@ export const Chat: FC = () => {
         .collection("messages")
         .orderBy("timestamp", "asc")
   );
+
+  useEffect(() => {
+    chatRef?.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [roomId, loading]);
 
   return (
     <ChatContainer>
@@ -54,8 +61,10 @@ export const Chat: FC = () => {
                 />
               );
             })}
+            <ChatBottom ref={chatRef} />
           </ChatMessages>
           <ChatInput
+            chatRef={chatRef}
             channelName={roomDetails?.data().name}
             channelId={roomId}
           />
@@ -112,3 +121,7 @@ const ChatRightHeader = styled.div`
 `;
 
 const ChatMessages = styled.div``;
+
+const ChatBottom = styled.div`
+  padding-bottom: 100px;
+`;
