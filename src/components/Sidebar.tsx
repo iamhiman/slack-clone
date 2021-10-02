@@ -15,8 +15,12 @@ import {
 } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import { SidebarOption } from "./SidebarOption";
+import { db } from "../firebase";
+import { useCollection } from "react-firebase-hooks/firestore";
 
 export const Sidebar: FC = () => {
+  const [channels] = useCollection(db.collection("rooms"));
+
   const roomStyle = {
     display: "flex",
     fontSize: "14px",
@@ -57,7 +61,10 @@ export const Sidebar: FC = () => {
       <SidebarOption Icon={ExpandMore} title="Channels" />
       <hr />
       <SidebarOption Icon={Add} addChannelOption title="Add Channel" />
-      <SidebarOption title="gdg" />
+
+      {channels?.docs?.map((doc: any) => (
+        <SidebarOption key={doc?.id} id={doc?.id} title={doc?.data()?.name} />
+      ))}
     </SidebarContainer>
   );
 };

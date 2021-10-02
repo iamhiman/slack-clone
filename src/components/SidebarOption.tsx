@@ -4,18 +4,24 @@ import { Modal, Box, Typography, TextField, Button } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { Theme } from "@mui/material/styles";
 import { SxProps } from "@mui/system";
+import { db } from "../firebase";
+import { useDispatch } from "react-redux";
+import { enterRoom } from "../store/appSlice";
 
 interface ISidebarOption {
   Icon?: any;
   title: string;
   addChannelOption?: boolean;
+  id?: string;
 }
 
 export const SidebarOption: FC<ISidebarOption> = ({
   Icon,
   title,
   addChannelOption,
+  id,
 }) => {
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [channelName, setChannelName] = useState("");
 
@@ -29,11 +35,27 @@ export const SidebarOption: FC<ISidebarOption> = ({
 
   const addChannel = () => {
     console.log("open", open);
+    if (channelName && channelName.trim().length !== 0) {
+      db.collection("rooms").add({
+        name: channelName,
+      });
+      setChannelName("");
+      setOpen(false);
+    } else {
+      setOpen(true);
+    }
   };
 
-  //pushes id to global store
+  //pushes id to redux global store
   const selectChannel = () => {
     console.log("room selected");
+    if (id) {
+      dispatch(
+        enterRoom({
+          roomId: id,
+        })
+      );
+    }
   };
 
   return (
